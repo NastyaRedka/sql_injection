@@ -81,6 +81,16 @@ You can put anything in the password field.
 
 3.	Submit the form, and you should be logged in as an administrator.
 
+### Using sqlmap
+
+sqlmap is an open-source penetration testing tool that automates the process of detecting and exploiting SQL injection vulnerabilities in web applications.
+
+#### Testing it in our simple app
+
+```bash
+python3 sqlmap/sqlmap.py -u "http://localhost:8080/handle_login.php" --data="username=admin&password=test&method=vulnerable" --risk=3 --level=5
+```
+
 ### Project Structure
 
 	•	Dockerfile: Defines the environment and dependencies for the project.
