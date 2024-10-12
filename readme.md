@@ -21,7 +21,7 @@ The -- sequence comments out the remainder of the SQL query, effectively bypassi
 
 Prerequisites
 
-	•	Docker installed on your machine
+- Docker installed on your machine
 
 Installation & Setup
 
