@@ -108,9 +108,3 @@ python3 sqlmap/sqlmap.py -u "http://localhost:8080/handle_login.php" --data="use
 
 This project is for educational purposes only.
 It demonstrates how SQL Injection attacks can compromise a web application’s security. Never use vulnerable code in production environments!
-
-### License
-
-This project is licensed under the MIT License.
-
-This README.md file provides a clear overview of the project, instructions on how to run the Docker container, and details on how to perform the SQL injection attack.
