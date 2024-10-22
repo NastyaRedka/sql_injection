@@ -87,6 +87,12 @@ sqlmap is an open-source penetration testing tool that automates the process of 
 
 #### Testing it in our simple app
 
+Clone the repository
+```
+git clone https://github.com/sqlmapproject/sqlmap
+```
+
+
 ```bash
 python3 sqlmap/sqlmap.py -u "http://localhost:8080/handle_login.php" --data="username=admin&password=test&method=vulnerable" --risk=3 --level=5
 ```
