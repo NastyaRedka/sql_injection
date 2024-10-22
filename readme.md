@@ -99,10 +99,11 @@ python3 sqlmap/sqlmap.py -u "http://localhost:8080/handle_login.php" --data="use
 
 ### Project Structure
 
-	•	Dockerfile: Defines the environment and dependencies for the project.
-	•	index.php: The main PHP file handling the form submission and user authentication.
-	•	database.db: The SQLite database file containing user information.
-	•	styles.css: The CSS file for basic styling of the web page.
+- Dockerfile: Defines the environment and dependencies for the project.
+- handle_login.php: The main PHP file handling the form submission and user authentication.
+- index.html: Simple login page.
+- database.db: The SQLite database file containing user information.
+- styles.css: The CSS file for basic styling of the web page.
 
 ### Warning
 
