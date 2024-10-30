@@ -1,3 +1,6 @@
+# Fork project wojciechtrapkowski/sql_injection
+
+This project was forked from  (https://github.com/wojciechtrapkowski/sql_injection) for demonstrates SQL Injection.
 # Vulnerable Website with SQL Injection Demonstration
 
 This project showcases a simple website vulnerable to SQL Injection. The website is built with PHP and SQLite and runs inside a Docker container. It allows demonstration of how SQL Injection attacks can be used to bypass authentication mechanisms.
