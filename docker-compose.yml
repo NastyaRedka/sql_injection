@@ -9,3 +9,26 @@ services:
     ports:
       - "8080:80"
     container_name: vulnerable_website_container
+    depends_on:
+      - sql_server
+    environment:
+      - DB_SERVER=sql_server
+      - DB_PORT=1433
+      - DB_NAME=sqli
+      - DB_USER=sa
+      - DB_PASSWORD=N1astya_
+
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql_server_container
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=N1astya_ 
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"  # Порт SQL Server
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
