@@ -1,28 +1,38 @@
 <?php
-// Create (or open) the SQLite database
-$db = new SQLite3('database.db');
+// Підключення до SQL Server
+$serverName = "tcp:localhost,1433"; // Вказати адресу сервера
+$connectionOptions = array(
+    "Database" => "sqli", // Назва бази даних
+    "Uid" => "sa", // Ваше ім'я користувача
+    "PWD" => "N1astya_"  // Ваш пароль
+);
 
-// Get user input from the login form
-$user = $_POST['username'];
-$pass = $_POST['password'];
-$method = $_POST['method'];
+// Підключення до бази даних
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+if (!$conn) {
+    die(print_r(sqlsrv_errors(), true));
+}
+
+// Отримуємо дані з форми (як з POST, так і з GET)
+$user = $_POST['username'] ?? $_GET['username'] ?? ''; // Перевіряємо як POST, так і GET
+$pass = $_POST['password'] ?? $_GET['password'] ?? ''; // Перевіряємо як POST, так і GET
+$method = $_POST['method'] ?? $_GET['method'] ?? ''; // Перевіряємо метод
 
 switch ($method) {
     case 'vulnerable':
-        // Vulnerable SQL query
+        // Вразливий SQL запит без параметризації (SQL ін'єкція)
         $sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";
         break;
     case 'parameterized':
-        // Parametrized input to prevent SQL injection
-        $stmt = $db->prepare('SELECT * FROM users WHERE username = :username AND password = :password');
-        $stmt->bindValue(':username', $user, SQLITE3_TEXT);
-        $stmt->bindValue(':password', $pass, SQLITE3_TEXT);
-        $result = $stmt->execute();
+        // Параметризований запит для запобігання SQL ін'єкціям
+        $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        $params = array($user, $pass);
         break;
     case 'escaping':
-        // Escaping data to prevent SQL injection
-        $user = SQLite3::escapeString($user);
-        $pass = SQLite3::escapeString($pass);
+        // Екранування даних для запобігання SQL ін'єкціям
+        $user = addslashes($user); // Екранує спецсимволи
+        $pass = addslashes($pass); // Екранує спецсимволи
         $sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";
         break;
     default:
@@ -30,17 +40,22 @@ switch ($method) {
         exit;
 }
 
-// Execute the query if not using prepared statements
+// Виконання запиту
 if (isset($sql)) {
-    $result = $db->query($sql);
+    if ($method === 'parameterized') {
+        $stmt = sqlsrv_query($conn, $sql, $params);
+    } else {
+        $stmt = sqlsrv_query($conn, $sql);
+    }
 }
 
-// Check if the user exists in the database
-if ($result && $result->fetchArray()) {
+// Перевіряємо чи існує користувач у базі даних
+if ($stmt && sqlsrv_fetch_array($stmt)) {
     echo "Login successful!";
 } else {
     header("Location: index.html?error=true");
 }
 
-$db->close();
+// Закриваємо підключення
+sqlsrv_close($conn);
 ?>
