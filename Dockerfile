@@ -19,9 +19,6 @@ RUN apt-get install -y gcc g++ make autoconf libc-dev pkg-config \
     && pecl install sqlsrv pdo_sqlsrv \
     && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
-# Встановлюємо SQLite (якщо потрібно для зворотної сумісності)
-RUN apt-get install -y libsqlite3-dev sqlite3 && docker-php-ext-install pdo pdo_sqlite
-
 # Увімкнути PHP для обробки .html файлів
 RUN echo "AddType application/x-httpd-php .html" >> /etc/apache2/apache2.conf
 
