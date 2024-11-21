@@ -1,10 +1,11 @@
 <?php
 // Підключення до SQL Server
-$serverName = "tcp:localhost,1433"; // Вказати адресу сервера
+$serverName = "tcp:sql_server,1433"; // Вказати адресу сервера
 $connectionOptions = array(
     "Database" => "sqli", // Назва бази даних
-    "Uid" => "sa", // Ваше ім'я користувача
-    "PWD" => "N1astya_"  // Ваш пароль
+    "Uid" => "SA", // Ваше ім'я користувача
+    "PWD" => "N1astya_",  // Ваш пароль
+    "TrustServerCertificate" => TRUE 
 );
 
 // Підключення до бази даних
