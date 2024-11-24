@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8082:80"
-    container_name: vulnerable_website_container
+    container_name: unvulnerable_website_container
     depends_on:
       - sql_server
 
