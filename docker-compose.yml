@@ -3,10 +3,21 @@ services:
     image: vulnerable-website
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-vulnerable
     ports:
       - "8081:80"
     container_name: vulnerable_website_container
+    depends_on:
+      - sql_server
+  
+  unvulnerable_website_apache_modsecurity:
+    image: unvulnerable_website_apache_modsecurity
+    build:
+      context: .
+      dockerfile: Dockerfile-unvulnerable_website_apache_modsecurity
+    ports:
+      - "8082:80"
+    container_name: unvulnerable_website_apache_modsecurity
     depends_on:
       - sql_server
 
