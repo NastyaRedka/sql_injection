@@ -1,11 +1,11 @@
 services:
-  vulnerable_website:
-    image: vulnerable-website
+  unvulnerable_website:
+    image: unvulnerable-website
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:80"
+      - "8082:80"
     container_name: vulnerable_website_container
     depends_on:
       - sql_server

@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     unixodbc-dev \
     libxml2-dev \
     wget \
-    software-properties-common
+    software-properties-common \
+    libapache2-mod-security2  # Додали ModSecurity
 
 # Додаємо репозиторій Microsoft
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
@@ -27,6 +28,19 @@ ENV PATH="/opt/mssql-tools18/bin:${PATH}"
 RUN pecl install sqlsrv pdo_sqlsrv \
     && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
+# Налаштування ModSecurity
+RUN a2enmod security2
+COPY modsecurity.conf /etc/apache2/mods-enabled/security2.conf
+
+# Копіюємо конфігурацію ModSecurity
+COPY modsecurity.conf /etc/apache2/mods-enabled/security2.conf
+RUN chmod 644 /etc/apache2/mods-enabled/security2.conf
+
+# Створюємо директорію для логів ModSecurity
+RUN mkdir -p /var/log/apache2 && \
+    touch /var/log/apache2/modsec_audit.log && \
+    chown www-data:www-data /var/log/apache2/modsec_audit.log
+
 # Увімкнути PHP для обробки .html файлів
 RUN echo "AddType application/x-httpd-php .html" >> /etc/apache2/apache2.conf
 
@@ -37,7 +51,8 @@ COPY . /var/www/html
 WORKDIR /var/www/html
 
 # Встановлюємо права на файли
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod 755 /usr/local/bin/docker-php-entrypoint
 
 # Запускаємо сервер Apache
 CMD ["apache2-foreground"]
