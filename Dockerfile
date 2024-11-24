@@ -39,8 +39,5 @@ WORKDIR /var/www/html
 # Встановлюємо права на файли
 RUN chown -R www-data:www-data /var/www/html
 
-# Відкриваємо порт
-EXPOSE 80
-
 # Запускаємо сервер Apache
 CMD ["apache2-foreground"]
