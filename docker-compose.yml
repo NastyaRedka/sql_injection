@@ -21,6 +21,20 @@ services:
     depends_on:
       - sql_server
 
+  unvulnerable_website_nginx_reverse_proxy_modsecurity:
+    image: unvulnerable_website_nginx_reverse_proxy_modsecurity
+    build:
+      context: .
+      dockerfile: Dockerfile-unvulnerable_website_nginx_reverse_proxy_modsecurity
+    ports:
+      - "8083:80"
+    container_name: unvulnerable_website_nginx_reverse_proxy_modsecurity
+    volumes:
+      - "./conf/conf.d/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./conf/modsec/:/etc/nginx/modsec/"
+    depends_on:
+      - vulnerable_website
+
   sql_server:
     image: mcr.microsoft.com/azure-sql-edge
     container_name: sql_server_container
